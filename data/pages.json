@@ -1,1 +1,14 @@
-
+{
+  "about": {
+    "title": "About Us",
+    "content": "We are a modern e-commerce store dedicated to bringing you the best products at competitive prices. Our mission is to provide exceptional customer service and quality products that enhance your lifestyle."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "content": "Get in touch with us! Email: contact@store.com | Phone: (555) 123-4567 | Address: 123 Commerce Street, Tech City, TC 12345"
+  },
+  "shipping": {
+    "title": "Shipping Info",
+    "content": "We offer free shipping on orders over $100. Standard shipping takes 5-7 business days. Express shipping available for an additional fee."
+  }
+}
