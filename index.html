@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModernStore - Home</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <div class="container">
+                <div class="header-content">
+                    <a href="/" class="logo" onclick="navigate('/', event)">
+                        <span class="logo-icon">🛍️</span>
+                        <h1>ModernStore</h1>
+                    </a>
+                    <nav>
+                        <a href="/" onclick="navigate('/', event)">Home</a>
+                        <a href="/pages?page=about" onclick="navigate('/pages?page=about', event)">About</a>
+                        <a href="/pages?page=contact" onclick="navigate('/pages?page=contact', event)">Contact</a>
+                        <div class="cart-icon">
+                            <span>🛒 Cart</span>
+                            <span id="cart-count" class="badge">0</span>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <main class="container">
+            <div id="content"></div>
+        </main>
+
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div>
+                        <h3>ModernStore</h3>
+                        <p>Your one-stop shop for quality products.</p>
+                    </div>
+                    <div class="footer-links">
+                        <a href="/pages?page=about" onclick="navigate('/pages?page=about', event)">About Us</a>
+                        <a href="/pages?page=contact" onclick="navigate('/pages?page=contact', event)">Contact</a>
+                        <a href="/pages?page=shipping" onclick="navigate('/pages?page=shipping', event)">Shipping</a>
+                    </div>
+                </div>
+                <p class="copyright">&copy; 2025 ModernStore. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+    <script>
+        // Navigation function for SPA
+        function navigate(url, event) {
+            if (event) event.preventDefault();
+            
+            // Update URL without reload
+            window.history.pushState({}, '', url);
+            
+            // Route to correct page
+            router();
+        }
+
+        // Router function
+        function router() {
+            const path = window.location.pathname;
+            const params = new URLSearchParams(window.location.search);
+
+            if (path === '/' || path === '/index.html') {
+                App.renderHomePage();
+            } else if (path === '/product' || path === '/product.html') {
+                const id = params.get('id');
+                loadProductPage(id);
+            } else if (path === '/pages' || path === '/pages.html') {
+                const page = params.get('page');
+                loadCustomPage(page);
+            }
+        }
+
+        // Handle back/forward buttons
+        window.addEventListener('popstate', router);
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            App.init();
+            router();
+        });
+
+        async function loadProductPage(id) {
+            const response = await fetch('data/products.json');
+            const products = await response.json();
+            const product = products.find(p => p.id === parseInt(id));
+            
+            const content = document.getElementById('content');
+            
+            if (!product) {
+                content.innerHTML = `
+                    <div class="not-found">
+                        <h2>Product Not Found</h2>
+                        <a href="/" onclick="navigate('/', event)" class="btn">Back to Home</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            content.innerHTML = `
+                <a href="/" onclick="navigate('/', event)" class="back-link">← Back to Products</a>
+                <div class="product-detail">
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="product-info">
+                        <span class="category">${product.category}</span>
+                        <h1>${product.name}</h1>
+                        <p class="description">${product.description}</p>
+                        <div class="price">$${product.price}</div>
+                        <button class="btn btn-primary" onclick="App.addToCart(${product.id})">
+                            Add to Cart
+                        </button>
+                        <div class="features">
+                            <div class="feature">✓ Free Shipping on orders over $100</div>
+                            <div class="feature">✓ 30-Day Returns</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function loadCustomPage(pageName) {
+            const response = await fetch('data/pages.json');
+            const pages = await response.json();
+            const page = pages[pageName];
+            
+            const content = document.getElementById('content');
+            
+            if (!page) {
+                content.innerHTML = `
+                    <div class="not-found">
+                        <h2>Page Not Found</h2>
+                        <a href="/" onclick="navigate('/', event)" class="btn">Back to Home</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            content.innerHTML = `
+                <div class="page-content">
+                    <h1>${page.title}</h1>
+                    <p>${page.content}</p>
+                    <a href="/" onclick="navigate('/', event)" class="back-link">← Back to Home</a>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
