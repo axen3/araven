@@ -1,72 +1,42 @@
-// Main App Logic
-const App = {
-    products: [],
-    cart: [],
+// Load header/footer
+async function loadHeaderFooter() {
+  const header = await fetch("components/header.html").then(r => r.text());
+  document.getElementById("header").innerHTML = header;
 
-    async init() {
-        await this.loadProducts();
-        this.updateCartCount();
-        
-        // Handle GitHub Pages redirect from 404.html
-        const urlParams = new URLSearchParams(window.location.search);
-        const redirect = urlParams.get('redirect');
-        if (redirect) {
-            window.history.replaceState({}, '', redirect);
-        }
-    },
+  const footer = await fetch("components/footer.html").then(r => r.text());
+  document.getElementById("footer").innerHTML = footer;
+}
 
-    async loadProducts() {
-        try {
-            const response = await fetch('data/products.json');
-            this.products = await response.json();
-        } catch (error) {
-            console.error('Error loading products:', error);
-        }
-    },
+// Load UI file into #app
+async function loadUI(file) {
+  const html = await fetch(`ui/${file}.html`).then(r => r.text());
+  document.getElementById("app").innerHTML = html;
+}
 
-    renderHomePage() {
-        const content = document.getElementById('content');
-        if (!content) return;
+// SPA router using hash
+async function router() {
+  const hash = location.hash || "#/home";
+  const [route, param] = hash.slice(2).split("/");
 
-        const productsHTML = this.products.map(product => `
-            <div class="product-card">
-                <img src="${product.image}" alt="${product.name}">
-                <div class="product-info">
-                    <h3>${product.name}</h3>
-                    <p>${product.description.substring(0, 80)}...</p>
-                    <div class="product-footer">
-                        <span class="price">$${product.price}</span>
-                        <a href="/product?id=${product.id}" onclick="navigate('/product?id=${product.id}', event)" class="btn">View Details</a>
-                    </div>
-                </div>
-            </div>
-        `).join('');
+  if (route === "home") {
+    await loadUI("home");
+    if (window.loadHome) window.loadHome();
+  } else if (route === "product") {
+    await loadUI("product");
+    if (window.loadProduct) window.loadProduct(param);
+  } else if (route === "pages") {
+    await loadUI("pages");
+    if (window.loadPage) window.loadPage(param);
+  } else {
+    await loadUI("home");
+    if (window.loadHome) window.loadHome();
+  }
+}
 
-        content.innerHTML = `
-            <div class="hero">
-                <h2>Welcome to ModernStore</h2>
-                <p>Discover amazing products at great prices</p>
-            </div>
-            <div class="products-grid">
-                ${productsHTML}
-            </div>
-        `;
-    },
+// Listen to hash changes
+window.addEventListener("hashchange", router);
 
-    addToCart(id) {
-        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-        cart.push(id);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        this.updateCartCount();
-        alert('Product added to cart!');
-    },
-
-    updateCartCount() {
-        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-        const badge = document.getElementById('cart-count');
-        if (badge) {
-            badge.textContent = cart.length;
-            badge.style.display = cart.length > 0 ? 'inline-block' : 'none';
-        }
-    }
-};
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadHeaderFooter();
+  router();
+});
