@@ -1,34 +1,65 @@
 [
   {
     "id": 1,
-    "name": "Premium Headphones",
-    "price": 299.99,
-    "category": "Electronics",
-    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop",
-    "description": "High-quality wireless headphones with noise cancellation and superior sound quality."
+    "title": "Premium Abstract Wallpaper",
+    "description": "High-resolution abstract artwork suitable for any device.",
+    "price": 12.99,
+    "images": [
+      "https://picsum.photos/id/1015/600/400",
+      "https://picsum.photos/id/1016/600/400"
+    ],
+    "colors": ["Red", "Blue", "Purple"],
+    "sizes": ["1080p", "1440p", "4K"],
+    "stock": 42
   },
   {
     "id": 2,
-    "name": "Smart Watch",
-    "price": 399.99,
-    "category": "Electronics",
-    "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop",
-    "description": "Feature-rich smartwatch with fitness tracking and health monitoring."
+    "title": "Nature Forest Sunset",
+    "description": "Beautiful warm sunset behind a dense forest. Perfect for calm backgrounds.",
+    "price": 9.99,
+    "images": [
+      "https://picsum.photos/id/1020/600/400",
+      "https://picsum.photos/id/1021/600/400"
+    ],
+    "colors": ["Warm", "Neutral"],
+    "sizes": ["1080p", "4K"],
+    "stock": 19
   },
   {
     "id": 3,
-    "name": "Laptop Backpack",
-    "price": 79.99,
-    "category": "Accessories",
-    "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=300&fit=crop",
-    "description": "Durable and stylish backpack perfect for carrying your laptop and essentials."
+    "title": "Minimal Neon Shapes",
+    "description": "A modern neon minimalist texture for clean UI themes.",
+    "price": 7.50,
+    "images": [
+      "https://picsum.photos/id/1025/600/400"
+    ],
+    "colors": ["Pink", "Blue", "Green"],
+    "sizes": ["1080p", "1440p", "4K"],
+    "stock": 100
   },
   {
     "id": 4,
-    "name": "Wireless Mouse",
-    "price": 49.99,
-    "category": "Electronics",
-    "image": "https://images.unsplash.com/photo-1527814050087-3793815479db?w=400&h=300&fit=crop",
-    "description": "Ergonomic wireless mouse with precision tracking and long battery life."
+    "title": "City Skyline at Night",
+    "description": "Vibrant city lights reflecting over water for a stunning night view.",
+    "price": 14.99,
+    "images": [
+      "https://picsum.photos/id/1030/600/400",
+      "https://picsum.photos/id/1031/600/400"
+    ],
+    "colors": ["Blue", "Yellow"],
+    "sizes": ["1080p", "4K"],
+    "stock": 25
+  },
+  {
+    "id": 5,
+    "title": "Mountain Mist",
+    "description": "Foggy mountain peaks with sunrise, perfect for a calm background.",
+    "price": 11.50,
+    "images": [
+      "https://picsum.photos/id/1040/600/400"
+    ],
+    "colors": ["Gray", "Green"],
+    "sizes": ["1080p", "1440p", "4K"],
+    "stock": 50
   }
 ]

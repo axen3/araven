@@ -1,14 +1,16 @@
 {
   "about": {
     "title": "About Us",
-    "content": "We are a modern e-commerce store dedicated to bringing you the best products at competitive prices. Our mission is to provide exceptional customer service and quality products that enhance your lifestyle."
+    "content": "<p>Wally Store provides high-quality wallpapers created by digital artists worldwide. Our mission is to deliver beautiful visuals for your devices.</p>"
   },
+
   "contact": {
     "title": "Contact Us",
-    "content": "Get in touch with us! Email: contact@store.com | Phone: (555) 123-4567 | Address: 123 Commerce Street, Tech City, TC 12345"
+    "content": "<p>Have a question? Send us a message at <strong>wallysupport@example.com</strong> and we’ll get back to you.</p>"
   },
-  "shipping": {
-    "title": "Shipping Info",
-    "content": "We offer free shipping on orders over $100. Standard shipping takes 5-7 business days. Express shipping available for an additional fee."
+
+  "policy": {
+    "title": "Privacy Policy",
+    "content": "<p>Your privacy matters to us. We never share your data with third parties and only collect essential analytics to improve our service.</p>"
   }
 }
