@@ -1,23 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
-    <script>
-        // GitHub Pages SPA redirect trick
-        (function() {
-            const path = window.location.pathname;
-            const search = window.location.search;
-            
-            // Redirect to index.html with path and query preserved
-            if (path !== '/') {
-                window.location.replace('/' + '?' + 'redirect=' + encodeURIComponent(path + search));
-            }
-        })();
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
+      text-align: center;
+    }
+    h1 { font-size: 10rem; animation: float 2s ease-in-out infinite; }
+    p { font-size: 1.5rem; margin: 20px 0; }
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 30px;
+      font-size: 1rem;
+      background: #fff;
+      color: #764ba2;
+      text-decoration: none;
+      border-radius: 50px;
+      transition: transform 0.3s, background 0.3s, color 0.3s;
+    }
+    a:hover { transform: scale(1.05); background: #f0f0f0; color: #667eea; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: sparkleAnim 2s infinite;
+    }
+    @keyframes sparkleAnim {
+      0% { transform: translate(0,0) scale(0.5); opacity: 0.5; }
+      50% { transform: translate(50px,-50px) scale(1.2); opacity: 1; }
+      100% { transform: translate(0,0) scale(0.5); opacity: 0.5; }
+    }
+  </style>
+  <script>
+    // Redirect after 3 seconds
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 3000);
+  </script>
 </head>
 <body>
-    <p>Redirecting...</p>
+  <h1>404</h1>
+  <p>Sorry, we can't find that page. Redirecting home...</p>
+  <a href="/">Back to Home</a>
+
+  <div class="sparkle" style="top:20%; left:10%; animation-delay:0s;"></div>
+  <div class="sparkle" style="top:40%; left:70%; animation-delay:0.5s;"></div>
+  <div class="sparkle" style="top:75%; left:30%; animation-delay:1s;"></div>
+  <div class="sparkle" style="top:60%; left:50%; animation-delay:1.5s;"></div>
 </body>
 </html>
