@@ -1,0 +1,23 @@
+<div class="product-page-container">
+  <div class="product-images" id="product-images"></div>
+  <div class="product-details">
+    <h1 id="product-title"></h1>
+    <p id="product-description"></p>
+    <p id="product-price"></p>
+    <p id="product-stock"></p>
+
+    <form id="order-form">
+      <input type="hidden" id="productId">
+      <input type="hidden" id="selectedSize">
+      <input type="hidden" id="selectedColor">
+      <input type="hidden" id="selectedUnits">
+      <input type="hidden" id="totalPrice">
+
+      <input type="text" id="fullname" placeholder="Full Name" required>
+      <input type="text" id="address" placeholder="Address" required>
+      <input type="text" id="city" placeholder="City" required>
+      <input type="text" id="phone" placeholder="Phone" required>
+      <button type="submit">Order</button>
+    </form>
+  </div>
+</div>
