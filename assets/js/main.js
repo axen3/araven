@@ -23,7 +23,6 @@ function addToCart(product, size, color, qty = 1) {
 
   localStorage.setItem("cart", JSON.stringify(cart));
   updateCartCounter();
-  alert(`Added ${qty} × ${product.name} to cart! 🛒`);
 }
 
 function updateCartCounter() {
@@ -53,8 +52,8 @@ window.loadHome = async function () {
           <div class="card-content">
             <h3>${p.name}</h3>
             <div class="price-row">
-              <span class="price">$${(p.price / 100).toFixed(2)}</span>
-              ${hasDiscount ? `<span class="original-price">$${(p.originalPrice / 100).toFixed(2)}</span>` : ''}
+              <span class="price">MAD ${(p.price / 100).toFixed(2)}</span>
+              ${hasDiscount ? `<span class="original-price">MAD ${(p.originalPrice / 100).toFixed(2)}</span>` : ''}
             </div>
           </div>
         </a>
@@ -74,33 +73,32 @@ window.loadProduct = async function (id) {
     return;
   }
 
-  // Basic info
   document.getElementById("product-title").textContent = product.name;
   document.getElementById("product-category").textContent = product.category;
   document.getElementById("product-description").textContent = product.shortDescription;
+
   const stockEl = document.getElementById("product-stock");
-const stockTextEl = stockEl.querySelector(".stock-text");
-const stockIconEl = stockEl.querySelector(".stock-icon");
+  const stockTextEl = stockEl.querySelector(".stock-text");
+  const stockIconEl = stockEl.querySelector(".stock-icon");
 
-if (product.inStock) {
-  stockTextEl.textContent = "In Stock";
-  stockIconEl.className = "fas fa-check-circle stock-icon";
-  stockEl.classList.remove("out-of-stock");
-} else {
-  stockTextEl.textContent = "Out of Stock";
-  stockIconEl.className = "fas fa-times-circle stock-icon";
-  stockEl.classList.add("out-of-stock");
-}
+  if (product.inStock) {
+    stockTextEl.textContent = "In Stock";
+    stockIconEl.className = "fas fa-check-circle stock-icon";
+    stockEl.classList.remove("out-of-stock");
+  } else {
+    stockTextEl.textContent = "Out of Stock";
+    stockIconEl.className = "fas fa-times-circle stock-icon";
+    stockEl.classList.add("out-of-stock");
+  }
 
-  // Price & Discount
   const priceEl = document.getElementById("product-price");
-  priceEl.textContent = `$${(product.price / 100).toFixed(2)}`;
+  priceEl.textContent = `MAD ${(product.price / 100).toFixed(2)}`;
 
   const originalPriceEl = document.getElementById("original-price");
   const discountBadgeEl = document.getElementById("discount-badge");
 
   if (product.originalPrice && product.originalPrice > product.price) {
-    originalPriceEl.textContent = `$${(product.originalPrice / 100).toFixed(2)}`;
+    originalPriceEl.textContent = `MAD ${(product.originalPrice / 100).toFixed(2)}`;
     originalPriceEl.style.display = "inline";
     const discount = Math.round((1 - product.price / product.originalPrice) * 100);
     discountBadgeEl.textContent = `-${discount}%`;
@@ -110,7 +108,6 @@ if (product.inStock) {
     discountBadgeEl.style.display = "none";
   }
 
-  // Modern Gallery with Thumbnails
   const allImages = [product.image, ...(product.images || [])];
   const imagesDiv = document.getElementById("product-images");
 
@@ -131,7 +128,6 @@ if (product.inStock) {
     ` : ''}
   `;
 
-  // Size Selector
   const sizeSelect = document.getElementById("selectedSize");
   if (product.sizes && product.sizes.length > 0) {
     sizeSelect.innerHTML = product.sizes.map(s => `<option value="${s}">${s}</option>`).join("");
@@ -140,7 +136,6 @@ if (product.inStock) {
     sizeSelect.closest(".option-group").style.display = "none";
   }
 
-  // Color Selector
   const colorDiv = document.getElementById("color-options");
   if (product.colors && product.colors.length > 0) {
     colorDiv.innerHTML = product.colors.map((c, i) => `
@@ -158,7 +153,6 @@ if (product.inStock) {
     colorDiv.closest(".option-group").style.display = "none";
   }
 
-  // Quantity Selector with + / – Buttons (Max 10)
   const qtyInput = document.getElementById("selectedUnits");
   const minusBtn = document.getElementById("qty-minus");
   const plusBtn = document.getElementById("qty-plus");
@@ -183,11 +177,9 @@ if (product.inStock) {
     }
   };
 
-  // Reset to 1 and update buttons
   qtyInput.value = 1;
   updateQtyButtons();
 
-  // Description Blocks
   const descDiv = document.getElementById("description-blocks");
   descDiv.innerHTML = (product.descriptionBlocks || []).map(block => {
     if (block.type === "h1") return `<h2>${block.content}</h2>`;
@@ -197,7 +189,7 @@ if (product.inStock) {
     return "";
   }).join("");
 
-  // Add to Cart Button
+  // Add to Cart
   document.getElementById("add-to-cart").onclick = () => {
     const size = product.sizes?.length ? document.getElementById("selectedSize").value : null;
     const color = product.colors?.length ? document.querySelector(".color-swatch.active")?.dataset.color : null;
@@ -206,7 +198,16 @@ if (product.inStock) {
     addToCart(product, size, color, qty);
   };
 
-  // Update page title
+  // Buy Now – silent + instant checkout
+  document.getElementById("buy-now").onclick = () => {
+    const size = product.sizes?.length ? document.getElementById("selectedSize").value : null;
+    const color = product.colors?.length ? document.querySelector(".color-swatch.active")?.dataset.color : null;
+    const qty = parseInt(qtyInput.value) || 1;
+
+    addToCart(product, size, color, qty);
+    location.hash = "#/checkout";
+  };
+
   updateTitle(product.name);
 };
 
@@ -219,4 +220,87 @@ window.loadPage = async function (page) {
   document.getElementById("page-title").textContent = content.title;
   document.getElementById("page-content").innerHTML = content.content;
   updateTitle(content.title);
+};
+
+// ================ Checkout Page – ALWAYS AVAILABLE & FIXED ================
+window.loadCheckout = function () {
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+  if (cart.length === 0) {
+    document.getElementById("app").innerHTML = `
+      <div style="text-align:center;padding:6rem 1rem;">
+        <h2>Your cart is empty 😔</h2>
+        <a href="#/home" data-link class="cta-button">Continue Shopping</a>
+      </div>`;
+    return;
+  }
+
+  const itemsHTML = cart.map((item, index) => `
+    <div class="cart-item">
+      <img src="${item.image}" alt="${item.name}">
+      <div class="cart-item-details">
+        <h4>${item.name}</h4>
+        <p>${item.size ? 'Size: ' + item.size + ' • ' : ''}${item.color ? 'Color: ' + item.color + ' • ' : ''}Qty: ${item.qty}</p>
+        <p>MAD ${(item.price / 100 * item.qty).toFixed(2)}</p>
+      </div>
+      <button class="remove-item-btn" data-index="${index}">
+        <i class="fas fa-trash-alt"></i>
+      </button>
+    </div>
+  `).join("");
+
+  const cartItemsEl = document.getElementById("cart-items");
+  if (cartItemsEl) cartItemsEl.innerHTML = itemsHTML;
+
+  const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0) / 100;
+  const totalEl = document.getElementById("grand-total");
+  if (totalEl) totalEl.textContent = total.toFixed(2);
+
+  document.querySelectorAll(".remove-item-btn").forEach(btn => {
+    btn.onclick = () => {
+      const index = parseInt(btn.dataset.index);
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCartCounter();
+      loadCheckout();
+    };
+  });
+
+  const form = document.getElementById("cod-form");
+  if (form) {
+    form.onsubmit = async e => {
+      e.preventDefault();
+      const btn = form.querySelector(".place-order-btn");
+      btn.disabled = true;
+      btn.textContent = "Placing Order...";
+
+      const orderData = {
+        orderId: Date.now(),
+        name: document.getElementById("name").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        address: document.getElementById("address").value.trim(),
+        city: document.getElementById("city").value.trim(),
+        notes: document.getElementById("notes").value.trim() || "No notes",
+        items: cart.map(i => `${i.name} (${i.qty}x)`).join(" • "),
+        total: total.toFixed(2)
+      };
+
+      const webhookURL = "https://hook.make.com/YOUR_WEBHOOK_HERE"; // ← Replace with your real URL
+
+      try {
+        await fetch(webhookURL, {
+          method: "POST",
+          body: JSON.stringify(orderData),
+          headers: { "Content-Type": "application/json" }
+        });
+        localStorage.removeItem("cart");
+        updateCartCounter();
+        location.hash = "#/thankyou";
+      } catch (err) {
+        alert("Order failed. Please try again or contact us.");
+        btn.disabled = false;
+        btn.textContent = "Place Order";
+      }
+    };
+  }
 };
