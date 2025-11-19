@@ -1,10 +1,21 @@
 const appDiv = document.getElementById("app");
 
 async function loadUI(file) {
-  appDiv.classList.add("fade-enter");
+  // 1. Instantly hide old content to prevent scroll flash
+  appDiv.style.opacity = "0";
+
+  // 2. Load new page
   const html = await fetch(`ui/${file}.html`).then(r => r.text());
   appDiv.innerHTML = html;
-  setTimeout(() => appDiv.classList.remove("fade-enter"), 50);
+
+  // 3. Force scroll to top immediately (no flash)
+  window.scrollTo(0, 0);
+
+  // 4. Fade in the new page smoothly
+  requestAnimationFrame(() => {
+    appDiv.style.transition = "opacity 0.25s ease";
+    appDiv.style.opacity = "1";
+  });
 }
 
 async function loadHeaderFooter() {
@@ -60,6 +71,7 @@ async function router() {
     location.hash = "#/home";
   }
   updateCartCounter();
+  window.scrollTo(0, 0);
 }
 
 document.addEventListener("click", e => {
