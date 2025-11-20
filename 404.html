@@ -52,11 +52,18 @@
       100% { transform: translate(0,0) scale(0.5); opacity: 0.5; }
     }
   </style>
-  <script>
-    // Redirect after 3 seconds
-    setTimeout(() => {
-      window.location.href = '/';
-    }, 3000);
+
+  <!-- GitHub Pages SPA fix – keeps the hash like #/pages/about -->
+  <script type="text/javascript">
+    // From https://github.com/rafgraph/spa-github-pages
+    var pathSegmentsToKeep = 0;
+    var l = window.location;
+    l.replace(
+      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+      l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/') +
+      l.search + '#' + l.hash
+    );
   </script>
 </head>
 <body>
