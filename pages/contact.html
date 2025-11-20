@@ -1,0 +1,95 @@
+<div class="static-page container">
+  <h1>Contact Us</h1>
+  
+  <section class="contact-section">
+    <div class="contact-grid">
+      <!-- Contact Info -->
+      <div class="contact-info">
+        <h2>Get in Touch</h2>
+        <p>We’re here to help you 7 days a week!</p>
+        
+        <div class="contact-item">
+          <i class="fas fa-phone-alt"></i>
+          <div>
+            <strong>Phone / WhatsApp</strong><br>
+            +212 6XX-XXX-XXX
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <div>
+            <strong>Email</strong><br>
+            support@wallystore.ma
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <i class="fas fa-clock"></i>
+          <div>
+            <strong>Working Hours</strong><br>
+            Saturday – Thursday: 9:00 – 21:00<br>
+            Friday: 14:00 – 21:00
+          </div>
+        </div>
+        
+        <p class="response-time">
+          <i class="fas fa-bolt"></i>
+          Average response time: <strong>under 30 minutes</strong>
+        </p>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="contact-form-wrapper">
+        <h2>Send us a Message</h2>
+        
+        <form action="https://formsubmit.co/rosibel1@nembors.com" method="POST">
+          <div class="form-group">
+            <label>Your Name *</label>
+            <input type="text" name="name" id="contact-name" required placeholder="Your full name">
+          </div>
+          
+          <div class="form-group">
+            <label>Email Address *</label>
+            <input type="email" name="email" id="contact-email" required placeholder="your@email.com">
+          </div>
+          
+          <div class="form-group">
+            <label>Message *</label>
+            <textarea name="message" id="contact-message" rows="6" required placeholder="How can we help you today?"></textarea>
+          </div>
+          
+          <!-- Anti-spam + redirect -->
+          <input type="text" name="_honey" style="display:none">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="#/pages/contact?sent=true">
+          <input type="hidden" name="_subject" value="New Message - Wally Store">
+
+          <button type="submit" class="send-message-btn">
+            <i class="fas fa-paper-plane"></i> Send Message
+          </button>
+        </form>
+
+        <!-- WhatsApp Button -->
+        <div style="text-align:center; margin-top:2rem;">
+          <a href="https://wa.me/2126XXXXXXXX" target="_blank" class="whatsapp-btn">
+            <i class="fab fa-whatsapp"></i> Chat on WhatsApp (Instant Reply!)
+          </a>
+        </div>
+
+        <!-- Success Message -->
+        <div id="contact-success" class="success-message" style="display:none; margin-top:2rem;">
+          <i class="fas fa-check-circle"></i>
+          Thank you! Your message was sent successfully. We’ll reply within 30 minutes ❤️
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  // Show success message when redirected back
+  if (location.search.includes("sent=true")) {
+    document.getElementById("contact-success").style.display = "block";
+  }
+</script>
