@@ -3,6 +3,8 @@
     "id": 1,
     "name": "Aerlo Jacket",
     "brand": "Nordvue",
+    "category": "Clothing",
+    "inStock": true,
     "price": 12999,
     "originalPrice": 15999,
     "shortDescription": "Lightweight insulated jacket for all-season use.",
@@ -33,14 +35,14 @@
         "type": "ul",
         "items": ["Water-resistant", "Windproof", "Breathable fabric", "Machine washable"]
       }
-    ],
-    "inStock": true,
-    "category": "Clothing"
+    ]
   },
   {
     "id": 2,
     "name": "Vortex Headphones",
     "brand": "Audionyx",
+    "category": "Electronics",
+    "inStock": true,
     "price": 8999,
     "originalPrice": 10999,
     "shortDescription": "Wireless noise-cancelling headphones with premium sound.",
@@ -71,14 +73,15 @@
         "type": "ul",
         "items": ["Bluetooth 5.3", "Active noise cancelling", "Touch controls", "Fast charging"]
       }
-    ],
-    "inStock": true,
-    "category": "Electronics"
+    ]
   },
   {
     "id": 3,
     "name": "Lunaris Smartwatch",
     "brand": "Chronox",
+    "category": "Wearables",
+    "inStock": 
+    true,
     "price": 11499,
     "originalPrice": 13999,
     "shortDescription": "Sleek smartwatch with fitness tracking and customizable faces.",
@@ -109,14 +112,14 @@
         "type": "ul",
         "items": ["Heart rate monitor", "Sleep tracking", "Water resistant", "Wireless charging"]
       }
-    ],
-    "inStock": true,
-    "category": "Wearables"
+    ]
   },
   {
     "id": 4,
     "name": "Nimbus Running Shoes",
     "brand": "Stridex",
+    "category": "Shoes",
+    "inStock": true,
     "price": 7499,
     "originalPrice": 8999,
     "shortDescription": "Cushioned running shoes built for speed and comfort.",
@@ -147,14 +150,14 @@
         "type": "ul",
         "items": ["Breathable mesh upper", "Foam midsole", "Durable outsole", "Reflective details"]
       }
-    ],
-    "inStock": true,
-    "category": "Shoes"
+    ]
   },
   {
     "id": 5,
     "name": "Sjuss",
     "brand": "Djdud",
+    "category": "Misc",
+    "inStock": true,
     "price": 6838,
     "originalPrice": null,
     "shortDescription": "A stylish and affordable product for everyday use.",
@@ -190,8 +193,6 @@
         "src": "https://picsum.photos/800/400?random=54",
         "alt": "Service"
       }
-    ],
-    "inStock": true,
-    "category": "Misc"
+    ]
   }
 ]
