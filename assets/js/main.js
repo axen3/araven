@@ -33,12 +33,24 @@ function updateCartCounter() {
 }
 
 // ================ Home Page ================
-window.loadHome = async function () {
+window.loadHome = async function (selectedCategory = null) {
   const container = document.getElementById("products-grid");
   const res = await fetch("data/products.json");
   const products = await res.json();
 
-  container.innerHTML = products.map(p => {
+  // Filter products if a category is selected
+  const filteredProducts = selectedCategory 
+    ? products.filter(p => p.category.toLowerCase() === selectedCategory.toLowerCase())
+    : products;
+
+  // Update page title
+  if (selectedCategory) {
+    document.querySelector("h2") ? document.querySelector("h2").textContent = selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1) : null;
+  } else {
+    document.querySelector("h2") ? document.querySelector("h2").textContent = "All Products" : null;
+  }
+
+  container.innerHTML = filteredProducts.map(p => {
     const hasDiscount = p.originalPrice && p.originalPrice > p.price;
     const discount = hasDiscount ? Math.round((1 - p.price / p.originalPrice) * 100) : 0;
 
@@ -51,6 +63,7 @@ window.loadHome = async function () {
           </div>
           <div class="card-content">
             <h3>${p.name}</h3>
+            <p class="category-badge">${p.category}</p>
             <div class="price-row">
               <span class="price">MAD ${(p.price / 100).toFixed(2)}</span>
               ${hasDiscount ? `<span class="original-price">MAD ${(p.originalPrice / 100).toFixed(2)}</span>` : ''}
@@ -60,6 +73,20 @@ window.loadHome = async function () {
       </div>
     `;
   }).join("");
+
+  // Add category filter buttons above grid (only on home/category pages)
+  const header = document.querySelector(".hero-section");
+  if (header && !document.getElementById("category-filters")) {
+    const categories = ["all", "clothing", "electronics", "wearables", "shoes", "misc"];
+    const filterHTML = `<div id="category-filters" class="category-filters">
+      ${categories.map(cat => `
+        <a href="#/${cat === "all" ? "home" : "category/" + cat}" data-link class="category-btn ${(!selectedCategory && cat === "all") || selectedCategory === cat ? "active" : ""}">
+          ${cat.charAt(0).toUpperCase() + cat.slice(1)}
+        </a>
+      `).join("")}
+    </div>`;
+    header.insertAdjacentHTML("afterend", filterHTML);
+  }
 };
 
 // ================ Product Page ================
@@ -304,3 +331,23 @@ window.loadCheckout = function () {
     };
   }
 };
+window.addEventListener("hashchange", () => {
+  if (location.hash === "#/home" || location.hash.startsWith("#/category/")) {
+    const filters = document.getElementById("category-filters");
+    if (filters) {
+      // Get header height (works even if header size changes)
+      const header = document.querySelector(".site-header");
+      const headerHeight = header ? header.offsetHeight : 80;
+
+      // Calculate exact position so filters touch the top of viewport
+      const filtersTop = filters.getBoundingClientRect().top + window.pageYOffset;
+      const targetScroll = filtersTop - headerHeight;
+
+      // Smooth scroll to that exact position
+      window.scrollTo({
+        top: targetScroll,
+        behavior: "smooth"
+      });
+    }
+  }
+});
