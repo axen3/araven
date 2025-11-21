@@ -63,12 +63,12 @@ async function router() {
         let pageTitle = "Page Not Found";
 
         try {
-            const response = await fetch(`../pages/${param}.html`);
+            const response = await fetch(`/pages/${param}.html`);
             if (response.ok) {
                 htmlContent = await response.text();
                 pageTitle = param.charAt(0).toUpperCase() + param.slice(1).replace(/-/g, " ");
             } else {
-                htmlContent = await fetch("../pages/404.html").then(r => r.text());
+                htmlContent = await fetch("/pages/404.html").then(r => r.text());
             }
         } catch (err) {
             htmlContent = await fetch("../pages/404.html").then(r => r.text());
