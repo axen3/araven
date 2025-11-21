@@ -273,20 +273,20 @@ window.loadCheckout = function () {
   const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
   if (cart.length === 0) {
-  document.getElementById("app").innerHTML = `
-    <div style="text-align:center; padding:8rem 2rem;">
-      <i class="fas fa-shopping-cart" style="font-size:6rem; color:#cbd5e1; margin-bottom:1.5rem;"></i>
-      <h2 style="font-size:2.2rem; margin-bottom:1rem; color:var(--primary);">Your cart is empty</h2>
-      <p style="font-size:1.2rem; color:#666; margin-bottom:2rem;">
-        Looks like you haven't added anything yet.<br>
-        Let's find something you love!
-      </p>
-      <a href="#/home" data-link class="cta-button" style="display:inline-block; padding:1rem 2.5rem; font-size:1.2rem;">
-        Start Shopping
-      </a>
-    </div>`;
-  return;
-}
+    document.getElementById("app").innerHTML = `
+      <div style="text-align:center; padding:8rem 2rem;">
+        <i class="fas fa-shopping-cart" style="font-size:6rem; color:#cbd5e1; margin-bottom:1.5rem;"></i>
+        <h2 style="font-size:2.2rem; margin-bottom:1rem; color:var(--primary);">Your cart is empty</h2>
+        <p style="font-size:1.2rem; color:#666; margin-bottom:2rem;">
+          Looks like you haven't added anything yet.<br>
+          Let's find something you love!
+        </p>
+        <a href="#/home" data-link class="cta-button" style="display:inline-block; padding:1rem 2.5rem; font-size:1.2rem;">
+          Start Shopping
+        </a>
+      </div>`;
+    return;
+  }
 
   const itemsHTML = cart.map((item, index) => `
     <div class="cart-item">
@@ -318,6 +318,7 @@ window.loadCheckout = function () {
       loadCheckout();
     };
   });
+
 // Populate Moroccan cities dropdown
 const moroccoCities = [
   "Agadir", "Ahfir", "Aïn Bni Mathar", "Aïn Defali", "Aïn El Aouda", "Aït Benhaddou", "Aït Iaaza",
@@ -350,17 +351,13 @@ if (citySelect && citySelect.options.length === 1) {  // only run once
       btn.textContent = "Placing Order...";
 
       const orderData = {
-        orderId: Date.now(),
         name: document.getElementById("name").value.trim(),
         phone: document.getElementById("phone").value.trim(),
         address: document.getElementById("address").value.trim(),
-        city: document.getElementById("city").value.trim(),
-        notes: document.getElementById("notes").value.trim() || "No notes",
-        items: cart.map(i => `${i.name} (${i.qty}x)`).join(" • "),
-        total: total.toFixed(2)
+        city: document.getElementById("city").value.trim()
       };
 
-      const webhookURL = "https://hook.make.com/YOUR_WEBHOOK_HERE"; // ← Replace with your real URL
+      const webhookURL = "https://hook.eu1.make.com/daglayfja85x5ovvk2zr66qlb0br7pqy"; // ← Replace with your real URL
 
       try {
         await fetch(webhookURL, {

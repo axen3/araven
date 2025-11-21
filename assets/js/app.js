@@ -58,9 +58,20 @@ async function router() {
         await loadUI("product");
         if (window.loadProduct) await window.loadProduct(param);
 
-    } else if (route === "pages" && param) {
+    }  else if (route === "pages" && param) {
         let htmlContent = "";
         let pageTitle = "Page Not Found";
+
+        // Special handling for contact page – load web3forms script FIRST
+        if (param === "contact") {
+            if (!document.querySelector('script[src="https://web3forms.com/client/script.js"]')) {
+                const script = document.createElement("script");
+                script.src = "https://web3forms.com/client/script.js";
+                script.async = true;
+                script.defer = true;
+                document.head.appendChild(script);
+            }
+        }
 
         try {
             const response = await fetch(`pages/${param}.html`);
@@ -75,6 +86,17 @@ async function router() {
         }
 
         appDiv.innerHTML = htmlContent;
+
+        // Re-render hCaptcha if on contact page (script is now loaded)
+        if (param === "contact") {
+            setTimeout(() => {
+                const captchaDiv = document.querySelector('.h-captcha[data-captcha="true"]');
+                if (captchaDiv && window.hcaptcha) {
+                    window.hcaptcha.render(captchaDiv);
+                }
+            }, 500);
+        }
+
         requestAnimationFrame(() => {
             appDiv.style.transition = "opacity 0.25s ease";
             appDiv.style.opacity = "1";
@@ -82,7 +104,7 @@ async function router() {
 
         updateTitle(pageTitle + " - Wally Store");
         window.scrollTo(0, 0);
-
+    
     } else if (route === "checkout") {
         await loadUI("checkout");
         const waitForCart = () => {
