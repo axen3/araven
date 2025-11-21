@@ -43,32 +43,36 @@
       <div class="contact-form-wrapper">
         <h2>Send us a Message</h2>
         
-        <form action="https://formsubmit.co/rosibel1@nembors.com" method="POST">
-          <div class="form-group">
-            <label>Your Name *</label>
-            <input type="text" name="name" id="contact-name" required placeholder="Your full name">
-          </div>
-          
-          <div class="form-group">
-            <label>Email Address *</label>
-            <input type="email" name="email" id="contact-email" required placeholder="your@email.com">
-          </div>
-          
-          <div class="form-group">
-            <label>Message *</label>
-            <textarea name="message" id="contact-message" rows="6" required placeholder="How can we help you today?"></textarea>
-          </div>
-          
-          <!-- Anti-spam + redirect -->
-          <input type="text" name="_honey" style="display:none">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_next" value="#/pages/contact?sent=true">
-          <input type="hidden" name="_subject" value="New Message - Wally Store">
+        <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+  <input type="hidden" name="access_key" value="06d5d065-ab1d-4047-93d8-63db1cccaa4e">
+  
+  <!-- This line redirects to your success page after submission -->
+  <input type="hidden" name="redirect" value="https://gamzy.my.to/araven/#/pages/contact?sent=true">
 
-          <button type="submit" class="send-message-btn">
-            <i class="fas fa-paper-plane"></i> Send Message
-          </button>
-        </form>
+  <div class="form-group">
+    <label>Your Name *</label>
+    <input type="text" name="name" required placeholder="Your full name">
+  </div>
+  
+  <div class="form-group">
+    <label>Email Address *</label>
+    <input type="email" name="email" required placeholder="your@email.com">
+  </div>
+  
+  <div class="form-group">
+    <label>Message *</label>
+    <textarea name="message" rows="6" required placeholder="How can we help you today?"></textarea>
+  </div>
+  
+  <!-- hCaptcha -->
+  <div class="form-group">
+    <div class="h-captcha" data-captcha="true"></div>
+  </div>
+  
+  <button type="submit" class="send-message-btn">
+    <i class="fas fa-paper-plane"></i> Send Message
+  </button>
+</form>
 
         <!-- WhatsApp Button -->
         <div style="text-align:center; margin-top:2rem;">
@@ -87,8 +91,40 @@
   </section>
 </div>
 
+<!-- Web3Forms + hCaptcha script -->
+<!-- <script src="https://web3forms.com/client/script.js" async defer></script>-->
+
 <script>
-  // Show success message when redirected back
+  // Create a new script element
+const script = document.createElement('script');
+
+// Set the src attribute to your script URL
+script.src = 'https://web3forms.com/client/script.js';
+
+// Make it async and defer
+script.async = true;
+script.defer = true;
+
+// Optionally, handle when the script loads
+script.onload = () => {
+    console.log('Web3Forms script loaded successfully.');
+};
+
+// Append the script to the document head (or body)
+document.head.appendChild(script);
+const form = document.getElementById('contact-form');
+
+form.addEventListener('submit', function(e) {
+
+    const hCaptcha = form.querySelector('textarea[name=h-captcha-response]').value;
+
+    if (!hCaptcha) {
+        e.preventDefault();
+        alert("Please fill out captcha field")
+        return
+    }
+});
+  // Show success message after redirect
   if (location.search.includes("sent=true")) {
     document.getElementById("contact-success").style.display = "block";
   }
