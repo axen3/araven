@@ -104,20 +104,39 @@ window.loadProduct = async function (id) {
   document.getElementById("product-category").textContent = product.category;
   document.getElementById("product-description").textContent = product.shortDescription;
 
+  // Stock Status + Disable buttons if out of stock
   const stockEl = document.getElementById("product-stock");
   const stockTextEl = stockEl.querySelector(".stock-text");
   const stockIconEl = stockEl.querySelector(".stock-icon");
+
+  const addToCartBtn = document.getElementById("add-to-cart");
+  const buyNowBtn = document.getElementById("buy-now");
 
   if (product.inStock) {
     stockTextEl.textContent = "In Stock";
     stockIconEl.className = "fas fa-check-circle stock-icon";
     stockEl.classList.remove("out-of-stock");
+
+    // Enable buttons
+    addToCartBtn.disabled = false;
+    buyNowBtn.disabled = false;
+    addToCartBtn.style.opacity = "1";
+    buyNowBtn.style.opacity = "1";
+    addToCartBtn.style.cursor = "pointer";
+    buyNowBtn.style.cursor = "pointer";
   } else {
     stockTextEl.textContent = "Out of Stock";
     stockIconEl.className = "fas fa-times-circle stock-icon";
     stockEl.classList.add("out-of-stock");
-  }
 
+    // Disable buttons
+    addToCartBtn.disabled = true;
+    buyNowBtn.disabled = true;
+    addToCartBtn.style.opacity = "0.5";
+    buyNowBtn.style.opacity = "0.5";
+    addToCartBtn.style.cursor = "not-allowed";
+    buyNowBtn.style.cursor = "not-allowed";
+  }
   const priceEl = document.getElementById("product-price");
   priceEl.textContent = `MAD ${(product.price / 100).toFixed(2)}`;
 
@@ -254,13 +273,20 @@ window.loadCheckout = function () {
   const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
   if (cart.length === 0) {
-    document.getElementById("app").innerHTML = `
-      <div style="text-align:center;padding:6rem 1rem;">
-        <h2>Your cart is empty 😔</h2>
-        <a href="#/home" data-link class="cta-button">Continue Shopping</a>
-      </div>`;
-    return;
-  }
+  document.getElementById("app").innerHTML = `
+    <div style="text-align:center; padding:8rem 2rem;">
+      <i class="fas fa-shopping-cart" style="font-size:6rem; color:#cbd5e1; margin-bottom:1.5rem;"></i>
+      <h2 style="font-size:2.2rem; margin-bottom:1rem; color:var(--primary);">Your cart is empty</h2>
+      <p style="font-size:1.2rem; color:#666; margin-bottom:2rem;">
+        Looks like you haven't added anything yet.<br>
+        Let's find something you love!
+      </p>
+      <a href="#/home" data-link class="cta-button" style="display:inline-block; padding:1rem 2.5rem; font-size:1.2rem;">
+        Start Shopping
+      </a>
+    </div>`;
+  return;
+}
 
   const itemsHTML = cart.map((item, index) => `
     <div class="cart-item">
@@ -292,7 +318,29 @@ window.loadCheckout = function () {
       loadCheckout();
     };
   });
+// Populate Moroccan cities dropdown
+const moroccoCities = [
+  "Agadir", "Ahfir", "Aïn Bni Mathar", "Aïn Defali", "Aïn El Aouda", "Aït Benhaddou", "Aït Iaaza",
+  "Al Hoceïma", "Arbaoua", "Asilah", "Bab Berred", "Béni Mellal", "Ben Slimane", "Berkane", "Berrechid",
+  "Bhalil", "Boujdour", "Boulemane", "Boumia", "Bouznika", "Casablanca", "Chefchaouen", "Chichaoua",
+  "Dakhla", "Dar Gueddari", "Dar Kebdani", "Demnate", "Driouch", "El Aioun Sidi Mellouk", "El Guerdane",
+  "El Hajeb", "El Jadida", "Erfoud", "Errachidia", "Essaouira", "Fès", "Figuig", "Fnideq", "Fquih Ben Salah",
+  "Guelmim", "Goulmima", "Guercif", "Had Kourt", "Ifrane", "Imilchil", "Imouzzer Kandar", "Inezgane",
+  "Issaouen (Ketama)", "Jerada", "Kénitra", "Khémisset", "Khouribga", "Khénifra", "Ksar El Kébir",
+  "Laâyoune", "Larache", "Marrakech", "Martil", "M'diq", "Mohammédia", "Midelt", "Moulay Idriss Zerhoun",
+  "Nador", "Ouarzazate", "Oualidia", "Oujda", "Oulad Teïma", "Rabat", "Safi", "Saïdia", "Salé",
+  "Témara", "Tanger", "Tarfaya", "Taza", "Tétouan", "Tiznit", "Taroudant"
+];
 
+const citySelect = document.getElementById("city");
+if (citySelect && citySelect.options.length === 1) {  // only run once
+  moroccoCities.sort().forEach(city => {
+    const option = document.createElement("option");
+    option.value = city;
+    option.textContent = city;
+    citySelect.appendChild(option);
+  });
+}
   const form = document.getElementById("cod-form");
   if (form) {
     form.onsubmit = async e => {
