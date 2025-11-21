@@ -4,7 +4,7 @@
     "name": "Aerlo Jacket",
     "brand": "Nordvue",
     "category": "Clothing",
-    "inStock": true,
+    "inStock": false,
     "price": 12999,
     "originalPrice": 15999,
     "shortDescription": "Lightweight insulated jacket for all-season use.",
