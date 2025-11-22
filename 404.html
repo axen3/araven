@@ -3,77 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 - Page Not Found</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: #fff;
-      text-align: center;
-    }
-    h1 { font-size: 10rem; animation: float 2s ease-in-out infinite; }
-    p { font-size: 1.5rem; margin: 20px 0; }
-    a {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 12px 30px;
-      font-size: 1rem;
-      background: #fff;
-      color: #764ba2;
-      text-decoration: none;
-      border-radius: 50px;
-      transition: transform 0.3s, background 0.3s, color 0.3s;
-    }
-    a:hover { transform: scale(1.05); background: #f0f0f0; color: #667eea; }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-
-    .sparkle {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: #fff;
-      border-radius: 50%;
-      opacity: 0.8;
-      animation: sparkleAnim 2s infinite;
-    }
-    @keyframes sparkleAnim {
-      0% { transform: translate(0,0) scale(0.5); opacity: 0.5; }
-      50% { transform: translate(50px,-50px) scale(1.2); opacity: 1; }
-      100% { transform: translate(0,0) scale(0.5); opacity: 0.5; }
-    }
-  </style>
-
-  <!-- GitHub Pages SPA redirect – this is the ONLY thing that should redirect -->
-  <script type="text/javascript">
-    // From https://github.com/rafgraph/spa-github-pages
-    var pathSegmentsToKeep = 0;
-    var l = window.location;
-    l.replace(
-      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-      l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/') +
-      l.search + '#' + l.hash
-    );
-  </script>
+  <title>Wally Store</title>
+  <meta name="description" content="Premium quality products at unbeatable prices.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/app.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
 </head>
 <body>
-  <h1>404</h1>
-  <p>Sorry, we can't find that page.</p>
-  <a href="/">← Back to Home</a>
+  <div id="header"></div>
 
-  <div class="sparkle" style="top:20%; left:10%; animation-delay:0s;"></div>
-  <div class="sparkle" style="top:40%; left:70%; animation-delay:0.5s;"></div>
-  <div class="sparkle" style="top:75%; left:30%; animation-delay:1s;"></div>
-  <div class="sparkle" style="top:60%; left:50%; animation-delay:1.5s;"></div>
+  <div id="app">
+    <div class="loader">
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  <div id="footer"></div>
 </body>
 </html>
