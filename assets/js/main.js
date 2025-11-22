@@ -351,10 +351,16 @@ if (citySelect && citySelect.options.length === 1) {  // only run once
       btn.textContent = "Placing Order...";
 
       const orderData = {
+        //orderDate: new Date().
+        orderId: "WALLY-" + Date.now().toString().slice(-6), // nice short ID
         name: document.getElementById("name").value.trim(),
         phone: document.getElementById("phone").value.trim(),
         address: document.getElementById("address").value.trim(),
-        city: document.getElementById("city").value.trim()
+        city: document.getElementById("city").value.trim(),
+        notes: document.getElementById("notes").value.trim() || "No notes",
+        items: cart.map(i => `${i.name} (${i.qty}x)${i.size ? " - Size: " + i.size : ""}${i.color ? " - Color: " + i.color : ""}`).join(" • "),
+        total: total.toFixed(2),
+        status: "Pending"                                 // ← Status last + default
       };
 
       const webhookURL = "https://hook.eu1.make.com/daglayfja85x5ovvk2zr66qlb0br7pqy"; // ← Replace with your real URL
@@ -394,5 +400,46 @@ window.addEventListener("hashchange", () => {
         behavior: "smooth"
       });
     }
+  }
+});
+// Contact page – validation + success message (no captcha)
+document.addEventListener("DOMContentLoaded", () => {
+  if (location.hash.includes("/pages/contact")) {
+    if (location.search.includes("sent=true")) {
+      const success = document.getElementById("contact-success");
+      if (success) success.style.display = "block";
+    }
+
+    const form = document.getElementById("contact-form");
+    if (!form) return; // now legal
+
+    form.addEventListener("submit", function(e) {
+      let hasError = false;
+      document.querySelectorAll(".error-msg").forEach(el => el.textContent = "");
+
+      const name = form.querySelector("input[name='name']");
+      if (!name.value.trim()) {
+        name.nextElementSibling.textContent = "Please enter your name";
+        hasError = true;
+      }
+
+      const email = form.querySelector("input[name='email']");
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email.value.trim()) {
+        email.nextElementSibling.textContent = "Please enter your email";
+        hasError = true;
+      } else if (!emailRegex.test(email.value)) {
+        email.nextElementSibling.textContent = "Please enter a valid email";
+        hasError = true;
+      }
+
+      const message = form.querySelector("textarea[name='message']");
+      if (!message.value.trim()) {
+        message.nextElementSibling.textContent = "Please write a message";
+        hasError = true;
+      }
+
+      if (hasError) e.preventDefault();
+    });
   }
 });

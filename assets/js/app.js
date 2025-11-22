@@ -61,18 +61,6 @@ async function router() {
     }  else if (route === "pages" && param) {
         let htmlContent = "";
         let pageTitle = "Page Not Found";
-
-        // Special handling for contact page – load web3forms script FIRST
-        if (param === "contact") {
-            if (!document.querySelector('script[src="https://web3forms.com/client/script.js"]')) {
-                const script = document.createElement("script");
-                script.src = "https://web3forms.com/client/script.js";
-                script.async = true;
-                script.defer = true;
-                document.head.appendChild(script);
-            }
-        }
-
         try {
             const response = await fetch(`pages/${param}.html`);
             if (response.ok) {
